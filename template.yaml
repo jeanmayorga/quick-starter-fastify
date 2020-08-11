@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 256
+    Runtime: 'nodejs10.x'
+
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}'
+      CodeUri: './'
+      Handler: 'build/lambda.handler'
+
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: '/{all+}'
+            Method: 'any'
+
+  ApiDomain:
+    Type: AWS::ApiGateway::DomainName
+    Properties:
+      EndpointConfiguration:
+        Types: [REGIONAL]
+      RegionalCertificateArn: certificadoARN
+      DomainName: midominio.com
+
+  BasePathMapping:
+    DependsOn: [ServerlessRestApi]
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      DomainName: !Ref ApiDomain
+      RestApiId: !Ref ServerlessRestApi
+      Stage: Prod
+
+Outputs:
+  Lambda:
+    Description: 'Lambda ARN'
+    Value: !GetAtt Lambda.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-lambda-arn'
