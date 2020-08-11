@@ -44,9 +44,11 @@ jobs:
     steps:
       - name: Print .env
         run: printenv > .env
-      - name: aws configure list
-        run: aws configure list
-      - name: SAM validate template
-        uses: TractorZoom/sam-cli-action@master
-        with:
-          sam_command: 'validate'
+      - uses: falnyr/aws-sam-deploy-action@v1.0.0
+        env:
+          TEMPLATE: 'template.yaml'
+          AWS_STACK_NAME: my-serverless-application
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEPLOY_BUCKET: 'api.jpmayorga.dev'

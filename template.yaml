@@ -27,8 +27,8 @@ Resources:
     Properties:
       EndpointConfiguration:
         Types: [REGIONAL]
-      RegionalCertificateArn: certificadoARN
-      DomainName: midominio.com
+      RegionalCertificateArn: arn:aws:acm:us-east-1:425623896369:certificate/7c5754cc-b253-4c59-b074-91ad3f5cb3cf
+      DomainName: api.patriciomayorga.com
 
   BasePathMapping:
     DependsOn: [ServerlessRestApi]
