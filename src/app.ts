@@ -1,17 +1,26 @@
-import aws from 'aws-sdk';
 import fastify, { FastifyReply, FastifyRequest } from 'fastify';
 
 import { logRequestHook } from './hooks/log-request';
 import { logResponseHook } from './hooks/log-response';
 
 import { ServerResponse } from 'http';
+import { config } from './config';
 
 export function init() {
-  aws.config.update({ region: 'us-east-1' });
   const app = fastify({ logger: true, disableRequestLogging: true });
 
   app.addHook('onRequest', logRequestHook);
   app.addHook('onResponse', logResponseHook);
+
+  app.route({
+    method: 'GET',
+    url: '/credential-example',
+    handler: async (_req: FastifyRequest, reply: FastifyReply<ServerResponse>) => {
+      const credential = config.X_CREDENTIAL;
+
+      return reply.status(201).send({ credential });
+    },
+  });
 
   app.route({
     method: 'GET',

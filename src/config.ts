@@ -6,9 +6,7 @@ const { str } = envalid;
 export const config = envalid.cleanEnv(
   process.env,
   {
-    X_MONGO_DATABASE: str(),
-    X_MONGO_URL: str(),
-    X_BITLY_TOKEN: str(),
+    X_CREDENTIAL: str(),
   },
   { strict: true, dotEnvPath: path.resolve(__dirname, '../.env') },
 );
