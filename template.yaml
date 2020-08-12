@@ -14,6 +14,14 @@ Resources:
       FunctionName: !Sub '${AWS::StackName}'
       CodeUri: './'
       Handler: 'build/lambda.handler'
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: 'Allow'
+              Action:
+                - 'ses:SendEmail'
+              Resource:
+                - '*'
 
       Events:
         GetEvent:
