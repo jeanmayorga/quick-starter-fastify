@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  ci:
+  continuos_integration:
     name: Continuous integration
     runs-on: ubuntu-18.04
     steps:
@@ -38,10 +38,10 @@ jobs:
             build
             node_modules
             template.yaml
-  cd:
+  continuos_deployment:
     name: Continuos deployment
+    needs: continuos_integration
     runs-on: ubuntu-18.04
-    needs: ci
     steps:
       - name: Download Build App
         uses: actions/download-artifact@v2
@@ -49,6 +49,8 @@ jobs:
           name: build-app
       - name: Print .env
         run: printenv > .env
+        env:
+          X_CREDENTIAL: ${{ secrets.X_CREDENTIAL }}
       - uses: falnyr/aws-sam-deploy-action@v1.0.0
         env:
           TEMPLATE: 'template.yaml'
