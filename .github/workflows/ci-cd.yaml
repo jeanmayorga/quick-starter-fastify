@@ -34,7 +34,7 @@ jobs:
         run: printenv > .env
       - name: Where
         run: ls
-      - uses: r0zar/sam-deploy-action@v1.0
+      - uses: falnyr/aws-sam-deploy-action@v1.0.0
         env:
           TEMPLATE: 'template.yaml'
           AWS_STACK_NAME: prod-${{ github.actor }}-resourceful
