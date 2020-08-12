@@ -47,9 +47,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-app
-      - name: Print .env
-        run: printenv > .env
-        env:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
           X_CREDENTIAL: ${{ secrets.X_CREDENTIAL }}
       - uses: falnyr/aws-sam-deploy-action@v1.0.0
         env:
