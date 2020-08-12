@@ -30,6 +30,8 @@ jobs:
         run: yarn format:check
       - name: Build
         run: yarn run build
+      - name: Where
+        run: ls
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -44,6 +46,8 @@ jobs:
     steps:
       - name: Print .env
         run: printenv > .env
+      - name: Where
+        run: ls
       - uses: falnyr/aws-sam-deploy-action@v1.0.0
         env:
           TEMPLATE: 'template.yaml'
