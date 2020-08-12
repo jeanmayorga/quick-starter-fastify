@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  ci:
+  ci-cd:
     name: Continuous integration
     runs-on: ubuntu-18.04
     steps:
@@ -30,20 +30,6 @@ jobs:
         run: yarn format:check
       - name: Build
         run: yarn run build
-      - name: Where
-        run: ls
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: homework
-          path: |
-            build
-            node_modules
-  cd:
-    name: Continuos deployment
-    runs-on: ubuntu-18.04
-    needs: ci
-    steps:
       - name: Print .env
         run: printenv > .env
       - name: Where
